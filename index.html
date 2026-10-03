@@ -911,7 +911,7 @@ function renderCute(checks,totals,totalsValid){
   if(info.length){const z=y,h=info.length*23+32;card(z,h);info.forEach((row,i)=>text(row.v,W/2,z+28+i*23,row.size,row.bold,'center',row.color||ink));decor('bow',369,z+1,.87,.19);decor('star',62,z+50,7,-.18);decor('flower',64,z+h-28,12);decor('star',91,z+h-22,4,.1);decor('star',361,z+h-38,12,.18);decor('heart',316,z+h-28,6,-.35);decor('heart',393,z+h-5,11,-.23);decor('heart',17,z+21,10,-.32);if($('time-visible').checked&&t){decor('heart',164,z+22,5,0);decor('heart',256,z+22,5,0)}ops.push(()=>{dot(50,z+h*.55,4,'#f5769d');dot(80,z+59,3,'#ffa8c1');dot(350,z+25,2.7,'#ffd78c');dot(377,z+42,3,'#ffaac3');dot(339,z+h-49,2.5,'#ffd283');dot(332,z+h-13,2.5,'#ffb0c5')});y+=h+14}
   if(!state.items.length){card(y,56);text('暂无项目',210,y+34,14,false,'center','#a77989');y+=70}
   state.items.forEach((item,index)=>{
-    const z=y,titles=item.name.trim()?wrapText(item.name.trim(),inner-70,font(17,true)):[],headH=Math.max(34,titles.length*23+12);let contentY=z+headH+31;
+    const z=y,titles=item.name.trim()?wrapText(item.name.trim(),inner-82,font(17,true)):[],headH=Math.max(34,titles.length*23+12);let contentY=z+headH+31;
     const rows=item.lines.map(detail=>{
       const values=[detail.category.trim(),detail.quantity.trim(),detail.price.trim(),detail.amount?money(Number(detail.amount))+'元':'—'];
       const columns=values.map((value,i)=>{const widths=[66,56,58,116];let size=14;if(i===3)while(size>10){ctx.font=font(size);if(ctx.measureText(value).width<=widths[i])break;size--}return{lines:value?wrapText(value,widths[i],font(size)):[],size,x:[pad+16,pad+94,pad+158,W-pad-14][i],align:i===3?'right':'left'}});
@@ -919,9 +919,9 @@ function renderCute(checks,totals,totalsValid){
     });
     const h=contentY-z+10;card(z,h);
     ops.push(()=>{ctx.save();rr(pad,z,inner,h,14);ctx.clip();ctx.fillStyle=gradient(z,headH,'#ffe7ec','#ffd7e3');ctx.fillRect(pad,z,inner,headH);ctx.restore();rr(pad,z,inner,h,14);stroke('#ffc4d4',1)});
-    decor('flower',pad+24,z+headH/2,19,true);text(String(index+1),pad+24,z+headH/2+7,index>98?13:20,true,'center','#ffffff');titles.forEach((row,i)=>text(row,pad+57,z+26+i*23,17,true,'left','#9f1743'));
+    titles.forEach((row,i)=>text(row,pad+16,z+26+i*23,17,true,'left','#9f1743'));
     rows.forEach((row,ri)=>{row.columns.forEach(c=>c.lines.forEach((value,li)=>text(value,c.x,row.z+li*21,c.size,false,c.align)));if(ri<rows.length-1)ops.push(()=>{ctx.beginPath();ctx.moveTo(pad+15,row.z+row.h-15);ctx.lineTo(W-pad-15,row.z+row.h-15);stroke('#f8cdd8',.7,[4,4])})});
-    if(!titles.length||titles.every(row=>{ctx.font=font(17,true);return ctx.measureText(row).width<inner-168})){decor('heart',W-pad-65,z+headH/2+2,8,.2);decor('star',W-pad-19,z+headH/2+4,4,.18);ops.push(()=>{dot(W-pad-47,z+headH/2+5,2.5,'#ffadc4');dot(W-pad-34,z+headH/2-3,3.2,'#ffa49f')})}
+    if(!titles.length||titles.every(row=>{ctx.font=font(17,true);return ctx.measureText(row).width<inner-112})){decor('heart',W-pad-65,z+headH/2+2,8,.2);decor('star',W-pad-19,z+headH/2+4,4,.18);ops.push(()=>{dot(W-pad-47,z+headH/2+5,2.5,'#ffadc4');dot(W-pad-34,z+headH/2-3,3.2,'#ffa49f')})}
     decor(index%2?'star':'heart',index%2?23:W-23,z+h-8,index%2?9:8,index%2?.1:-.2);y=z+h+13;
   });
   y+=5;ops.push((z=>()=>{ctx.beginPath();ctx.moveTo(pad+4,z);ctx.lineTo(W-pad-4,z);stroke('#f18fab',1.2,[5,5])})(y));y+=12;
@@ -987,12 +987,12 @@ function renderBlue(checks,totals,totalsValid){
   for(const [label,value] of [['老板ID',$('owner-id').value.trim()],['派单客服',$('customer-service').value.trim()],['游戏名',gameName()]])if(value)wrapText(label+'：'+value,inner-116,font(14)).forEach(v=>info.push({v,size:14}));
   if(info.length){const z=y,h=info.length*24+31;panel(z,h,'#f5fcff',true);if(info[0].label)ops.push(()=>{rr(160,z+12,100,22,12);ctx.fillStyle='#b9e6ff';ctx.fill()});info.forEach((row,i)=>text(row.v,210,z+28+i*24,row.size,row.bold,'center'));decor('star',76,z+1,15,.15,true);decor('cloud',42,z+31,39,30);decor('cloud',371,z+h-7,55,38);decor('heart',377,z+39,11,-.2);decor('heart',63,z+h-28,10,-.15);decor('sparkle',354,z+h*.62,8,'#ffedb5');decor('sparkle',53,z+h*.56,7,'#a3ddff');y+=h+24}
   if(!state.items.length){panel(y,55);text('暂无项目',210,y+33,14,false,'center','#5990c2');y+=76}
-  state.items.forEach((item,index)=>{const z=y,titles=item.name.trim()?wrapText(item.name.trim(),inner-89,font(17,true)):[],headH=Math.max(34,titles.length*23+12);let contentY=z+headH+31;
+  state.items.forEach((item,index)=>{const z=y,titles=item.name.trim()?wrapText(item.name.trim(),inner-82,font(17,true)):[],headH=Math.max(34,titles.length*23+12);let contentY=z+headH+31;
     const rows=item.lines.map(detail=>{const values=[detail.category.trim(),detail.quantity.trim(),detail.price.trim(),detail.amount?money(Number(detail.amount))+'元':'—'];const columns=values.map((value,i)=>{const widths=[66,56,58,116];let size=14;if(i===3)while(size>10){ctx.font=font(size);if(ctx.measureText(value).width<=widths[i])break;size--}return{lines:value?wrapText(value,widths[i],font(size)):[],size,x:[pad+6,pad+94,pad+158,W-pad-7][i],align:i===3?'right':'left'}});const h=Math.max(23,...columns.map(c=>c.lines.length*21)),row={columns,z:contentY,h};contentY+=h;return row});
-    const h=contentY-z+8;panel(z,h);if(titles.length){ctx.font=font(17,true);const tw=Math.min(inner-69,Math.max(110,...titles.map(r=>ctx.measureText(r).width+24)));ops.push(()=>{cloudBox(pad+46,z-1,tw,headH);ctx.fillStyle=grad(z,headH,'#ffe7f4','#ffd9ed');ctx.fill();stroke('#fffafd',2)})}
-    decor('cloud',pad+19,z+headH/2,49,37,true);text(String(index+1),pad+19,z+headH/2+8,index>98?13:22,true,'center');titles.forEach((r,i)=>text(r,pad+62,z+25+i*23,17,true));
+    const h=contentY-z+8;panel(z,h);ctx.font=font(17,true);const tw=Math.min(inner-36,Math.max(110,...titles.map(r=>ctx.measureText(r).width+28)));if(titles.length)ops.push(()=>{cloudBox(pad+4,z-1,tw,headH);ctx.fillStyle=grad(z,headH,'#ffe7f4','#ffd9ed');ctx.fill();stroke('#fffafd',2)});
+    titles.forEach((r,i)=>text(r,pad+4+tw/2,z+25+i*23,17,true,'center'));
     rows.forEach((row,ri)=>{row.columns.forEach(c=>c.lines.forEach((v,li)=>text(v,c.x,row.z+li*21,c.size,false,c.align)));if(ri<rows.length-1)ops.push(()=>{ctx.beginPath();ctx.moveTo(pad+5,row.z+row.h-15);ctx.lineTo(W-pad-6,row.z+row.h-15);stroke('#ace0ff',1,[4,3])})});
-    if(titles.every(r=>{ctx.font=font(17,true);return ctx.measureText(r).width<190})){decor(index%2?'star':'heart',310,z+19,10,-.16);if(index%3===2)decor('rainbow',363,z+9,.55,-.25);else decor(index%2?'cloud':'star',370,z+18,...(index%2?[25,20]:[10,.1]))}
+    if(titles.every(r=>{ctx.font=font(17,true);return ctx.measureText(r).width<230})){decor(index%2?'star':'heart',310,z+19,10,-.16);if(index%3===2)decor('rainbow',363,z+9,.55,-.25);else decor(index%2?'cloud':'star',370,z+18,...(index%2?[25,20]:[10,.1]))}
     decor('sparkle',18,z+h-6,6);y=z+h+23;
   });
   const sums=[['项目小计',checks.amounts?money(totals.subtotal/100):'—']];if($('rush-enabled').checked)sums.push(['加急费'+(checks.rate?`（×${totals.rate}）`:''),totalsValid?money(totals.rush/100):'—']);const discountSummary=[`折扣（${totals.discountRate} 折）`,totalsValid?money(-totals.discount/100):'—'],fixedSummary=['优惠',totalsValid?money(-totals.fixedDiscount/100):'—'];if(totals.fixedBeforeRate&&totals.fixedDiscountEnabled)sums.push(fixedSummary);if(totals.discountEnabled)sums.push(discountSummary);if(!totals.fixedBeforeRate&&totals.fixedDiscountEnabled)sums.push(fixedSummary);
@@ -1027,8 +1027,8 @@ hasDetails=centeredField('老板ID',$('owner-id').value.trim())||hasDetails;
 hasDetails=centeredField('派单客服',$('customer-service').value.trim())||hasDetails;hasDetails=centeredField('游戏名',gameName())||hasDetails;if(hasDetails){y+=2;line(y);y+=28}
 if(!state.items.length){text(tr('暂无项目'),W/2,y,fonts.body,'center','#888');y+=29}
 state.items.forEach((item,index)=>{
-  const titleFont='15px '+fontFamily();text(String(index+1),pad,y,fonts.mono);
-  const titleLines=item.name.trim()?wrapText(item.name.trim(),inner-32,titleFont):[''];titleLines.forEach((s,i)=>text(s,pad+32,y+i*24,titleFont));y+=Math.max(1,titleLines.length)*24+17;
+  const titleFont='15px '+fontFamily();
+  const titleLines=item.name.trim()?wrapText(item.name.trim(),inner,titleFont):[''];titleLines.forEach((s,i)=>text(s,pad,y+i*24,titleFont));y+=Math.max(1,titleLines.length)*24+17;
   item.lines.forEach(detail=>{
     // Four fixed columns share equal gutters; empty price keeps its column reserved.
     const columns=[{value:detail.category.trim(),x:pad,width:64},{value:detail.quantity.trim(),x:pad+72,width:64},{value:detail.price.trim(),x:pad+144,width:64},{value:detail.amount?money(Number(detail.amount))+'元':'—',x:W-pad,width:86,right:true}];
