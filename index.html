@@ -926,7 +926,7 @@ function renderReservation(checks,totals,totalsValid){
     tape(49,34,-.36);tape(W-42,H-31,-.4);
   }
   // Both image slots use the same fixed box. Different aspect ratios are contained, never cropped.
-  function uploaded(img,z){const boxW=imageWidth,boxH=156,k=Math.min(boxW/img.width,boxH/img.height),w=img.width*k,h=img.height*k;
+  function uploaded(img,z){const boxW=inner*.88,boxH=280,k=Math.min(boxW/img.width,boxH/img.height),w=img.width*k,h=img.height*k;
     ops.push(()=>ctx.drawImage(img,(W-w)/2,z+(boxH-h)/2,w,h));return z+boxH+16}
   y=43;if(state.image)y=uploaded(state.image,Math.max(y,62));
   const title=$('reservation-title').value.trim(),subtitle=$('reservation-subtitle').value.trim();
