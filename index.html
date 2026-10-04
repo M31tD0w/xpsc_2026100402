@@ -960,10 +960,9 @@ function renderReservation(checks,totals,totalsValid){
     const rows=item.lines.map(detail=>{
       const category=detail.category.trim(),quantity=detail.quantity.trim(),price=detail.price.trim();
       const a=category?wrapText(category,112,font(14,true)):[];
-      const b=[];if(quantity)b.push(...wrapText('数量：'+quantity,132,font(14)));if(price)b.push(...wrapText('单价：'+price+'元',132,font(12)));
-      const amount=detail.amount?money(Number(detail.amount))+'元':'—',size=13;
-      const c=wrapText('金额：'+amount,width-280,font(size));
-      const h=Math.max(34,a.length*21+8,b.length*20+8,c.length*21+8),row={z:rowY,h,a,b,c,size};rowY+=h;return row;
+      const amount=detail.amount?money(Number(detail.amount)):'—',size=14;
+      const b=quantity?wrapText(quantity,94,font(size)):[],c=price?wrapText(price,94,font(size)):[],d=wrapText(amount,94,font(size));
+      const h=Math.max(38,a.length*21+8,b.length*21+8,c.length*21+8,d.length*21+8),row={z:rowY,h,a,b,c,d,size};rowY+=h;return row;
     });
     const h=Math.max(56,rowY-z+10,name.length*26+24);projectY=z+h+10;return {z,h,name,rows,left,width};
   });
@@ -978,8 +977,10 @@ function renderReservation(checks,totals,totalsValid){
     rows.forEach((row,ri)=>{
       if(row.a.length){const rz=row.z;ops.push(()=>{rr(left+8,rz+3,118,row.h-8,12);ctx.fillStyle='#ffe1ee';ctx.fill()})}
       centeredLines(row.a,left+8,row.z+3,118,row.h-8,14,true);
-      centeredLines(row.b,left+137,row.z,132,row.h,i=>i?12:14,false,ink,20);
-      centeredLines(row.c,left+270,row.z,width-280,row.h,row.size);
+      const numericX=left+134,numericW=width-142,columnW=numericW/3;
+      centeredLines(row.b,numericX,row.z,columnW,row.h,row.size,false,ink,21);
+      centeredLines(row.c,numericX+columnW,row.z,columnW,row.h,row.size,false,ink,21);
+      centeredLines(row.d,numericX+columnW*2,row.z,columnW,row.h,row.size,false,ink,21);
       if(ri<rows.length-1)ops.push(()=>{ctx.beginPath();ctx.moveTo(left+8,row.z+row.h);ctx.lineTo(left+width-8,row.z+row.h);stroke('#ffc5db',.8,[4,3])});
     });
   });
