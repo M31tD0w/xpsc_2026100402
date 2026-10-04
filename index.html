@@ -980,7 +980,7 @@ function renderReservation(checks,totals,totalsValid){
     card(z,h,'#fffaf8','#ffa3c5');let yy=z+12;
     rows.forEach((row,index)=>{const rh=Math.max(32,row.lines.length*24+10),rz=yy;
       ops.push(()=>{rr(W/2-255,rz+3,124,25,13);ctx.fillStyle='#ffe2ee';ctx.fill();heart(W/2-238,rz+16,4);if(index<rows.length-1){ctx.beginPath();ctx.moveTo(W/2-258,rz+rh);ctx.lineTo(W/2+258,rz+rh);stroke('#ffc7dc',.8,[4,3])}});
-      centeredLines([row.label],W/2-226,rz+3,95,25,14,true);centeredLines(row.lines,W/2-152,rz,436,rh,16,false,ink,24);yy+=rh;
+      centeredLines([row.label],W/2-255,rz+3,124,25,14,true);centeredLines(row.lines,W/2-152,rz,436,rh,16,false,ink,24);yy+=rh;
     });decor('flower',W-pad+5,z+h-4,14);y+=h+28;
   }else y+=10;
   const visibleGroups=state.reservationGroups.map(group=>({title:group.title.trim(),rows:group.rows.map(row=>row.values.map(value=>value.trim()).filter(Boolean)).filter(values=>values.length)})).filter(group=>group.title||group.rows.length);
@@ -1009,7 +1009,7 @@ function renderReservation(checks,totals,totalsValid){
 
 function renderCute(checks,totals,totalsValid){
   const W=420, pad=32, inner=356, imageWidth=inner*.9, ink='#ad3e68', rose='#b42c56', pink='#f28baa', cream='#fff1c6';
-  const face='"ChillRound", sans-serif',titleFace='"JingNanJunJun", "ChillRound", sans-serif', ops=[];let y=29;
+  const face='"ChillRound", sans-serif',titleFace='"JingNanJunJun", "ChillRound", sans-serif', ops=[];let y=53;
   const font=(size=14,bold=false)=>(bold?'700 ':'400 ')+size+'px '+face;
   const titleFont=(size=34)=>'700 '+size+'px '+titleFace;
   const rr=(x,z,w,h,r=14)=>{ctx.beginPath();ctx.roundRect(x,z,w,h,r)};
@@ -1115,7 +1115,7 @@ function renderCute(checks,totals,totalsValid){
     });
     const h=contentY-z+10;card(z,h);
     ops.push(()=>{ctx.save();rr(pad,z,inner,h,14);ctx.clip();ctx.fillStyle=gradient(z,headH,'#ffe7ec','#ffd7e3');ctx.fillRect(pad,z,inner,headH);ctx.restore();rr(pad,z,inner,h,14);stroke('#ffc4d4',1)});
-    titles.forEach((row,i)=>text(row,pad+16,z+26+i*23,17,true,'left','#9f1743'));
+    titles.forEach((row,i)=>text(row,pad+16,z+26+i*23,17,true,'left','#e74188'));
     rows.forEach((row,ri)=>{row.columns.forEach(c=>c.lines.forEach((value,li)=>text(value,c.x,row.z+li*21,c.size,false,c.align)));if(ri<rows.length-1)ops.push(()=>{ctx.beginPath();ctx.moveTo(pad+15,row.z+row.h-15);ctx.lineTo(W-pad-15,row.z+row.h-15);stroke('#f8cdd8',.7,[4,4])})});
     if(!titles.length||titles.every(row=>{ctx.font=font(17,true);return ctx.measureText(row).width<inner-112})){decor('heart',W-pad-65,z+headH/2+2,8,.2);decor('star',W-pad-19,z+headH/2+4,4,.18);ops.push(()=>{dot(W-pad-47,z+headH/2+5,2.5,'#ffadc4');dot(W-pad-34,z+headH/2-3,3.2,'#ffa49f')})}
     decor(index%2?'star':'heart',index%2?23:W-23,z+h-8,index%2?9:8,index%2?.1:-.2);y=z+h+13;
@@ -1179,12 +1179,12 @@ function renderBlue(checks,totals,totalsValid){
   }
   function uploaded(img,z){const w=imageWidth,h=w*img.height/img.width,x=(W-w)/2;ops.push(()=>{rr(x-4,z-4,w+8,h+8,8);ctx.fillStyle='#f8fdff';ctx.fill();ctx.drawImage(img,x,z,w,h)});return z+h}
   if(state.image)y=uploaded(state.image,80)+24;
-  const headerY=y,title=$('title').value.trim(),subtitle=$('subtitle').value.trim();
+  const headerY=y,title=$('title').value.trim(),subtitle=$('subtitle').value.trim();let titleBottom=null;
   if(title){const rows=blueTitleRows(title),h=Math.max(110,rows.length*55+47),z=y;
     ops.push(()=>{cloudPath(68,z,284,h);ctx.fillStyle='#ffffff';ctx.fill();stroke('#57a9f4',3.2)});
-    rows.forEach((row,i)=>blueTitleText(row,z+h/2+(i-(rows.length-1)/2)*55));y+=h+24;
+    rows.forEach((row,i)=>blueTitleText(row,z+h/2+(i-(rows.length-1)/2)*55));titleBottom=z+h;y=titleBottom;
   }
-  if(subtitle){const rows=wrapText(subtitle,220,font(17,true)),h=rows.length*23+9,z=y;ops.push(()=>{cloudBox(142-(Math.min(240,Math.max(140,...rows.map(r=>{ctx.font=font(17,true);return ctx.measureText(r).width+35})))-140)/2,z,Math.min(240,Math.max(140,...rows.map(r=>{ctx.font=font(17,true);return ctx.measureText(r).width+35}))),h);ctx.fillStyle=grad(z,h,'#fff3fa','#ffdaed');ctx.fill();stroke('#78b3f4',2.3)});rows.forEach((r,i)=>text(r,210,z+23+i*23,17,true,'center'));y+=h+17}else y+=15;
+  if(subtitle){const rows=wrapText(subtitle,220,font(17,true)),h=rows.length*23+9,z=titleBottom===null?y:titleBottom-12;ops.push(()=>{cloudBox(142-(Math.min(240,Math.max(140,...rows.map(r=>{ctx.font=font(17,true);return ctx.measureText(r).width+35})))-140)/2,z,Math.min(240,Math.max(140,...rows.map(r=>{ctx.font=font(17,true);return ctx.measureText(r).width+35}))),h);ctx.fillStyle=grad(z,h,'#fff3fa','#ffdaed');ctx.fill();stroke('#78b3f4',2.3)});rows.forEach((r,i)=>text(r,210,z+23+i*23,17,true,'center'));y=z+h+17}else y+=(titleBottom===null?15:17);
   if(title||subtitle){decor('rainbow',370,headerY+23,.7,-.35);decor('heart',49,headerY+97,8,-.2);decor('star',378,headerY+80,13,.12);decor('sparkle',329,headerY+1,9);}
   const info=[];const time=$('time').value;if($('time-visible').checked&&time){info.push({v:'下单时间',size:14,bold:true,label:true});info.push({v:time.slice(0,10).replaceAll('-','.')+'  '+time.slice(11,16),size:15,bold:true})}
   for(const [label,value] of [['老板ID',$('owner-id').value.trim()],['派单客服',$('customer-service').value.trim()],['游戏名',gameName()]])if(value)wrapText(label+'：'+value,inner-116,font(14)).forEach(v=>info.push({v,size:14}));
